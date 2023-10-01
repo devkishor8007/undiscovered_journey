@@ -1,23 +1,28 @@
-import { Container, Text, Stack, Heading, Button } from '@chakra-ui/react'
+import {
+  Container, Text, Stack, Heading, Button, Menu, MenuButton, MenuList, MenuItem,
+} from '@chakra-ui/react'
 import Link from 'next/link'
 import { useTranslation } from "react-i18next";
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
-} from '@chakra-ui/react'
+import { useDispatch } from "react-redux"
+import { updatelocal } from '@/redux/slice/userSlice';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
 
+  const dispatch = useDispatch()
+
   const changeLanguage = (lng: any) => {
     i18n.changeLanguage(lng);
+    dispatch(updatelocal(lng));
   };
+
+  const languageMap: { [key: string]: string } = {
+    en: 'English',
+    de: 'Germany',
+    es: 'Spanish',
+  };
+
+  const languageText = languageMap[i18n.language]
 
   return (
     <Container maxW={'5xl'}>
@@ -29,12 +34,12 @@ export default function Home() {
       >
         <Menu>
           <MenuButton as={Button}>
-            Change Language
+            {languageText}
           </MenuButton>
           <MenuList>
-            <MenuItem>Germany</MenuItem>
-            <MenuItem>English</MenuItem>
-            <MenuItem>Spanish</MenuItem>
+            <MenuItem onClick={() => changeLanguage('de')}>Germany</MenuItem>
+            <MenuItem onClick={() => changeLanguage('en')}>English</MenuItem>
+            <MenuItem onClick={() => changeLanguage('es')}>Spanish</MenuItem>
           </MenuList>
         </Menu>
         <Heading

@@ -3,12 +3,14 @@ import { RootState } from "../store";
 
 interface UserState {
     age: number;
-    username: string
+    username: string,
+    local: string,
 }
 
 const initialState: UserState = {
     age: 24,
-    username: 'Kishor'
+    username: 'Kishor',
+    local: 'en'
 }
 
 export const userSlice = createSlice({
@@ -16,14 +18,17 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         updateUsername: (state, v) => {
-            console.log({state, v, payload: v.payload});
-            
+            console.log({ state, v, payload: v.payload });
+
             state.username = v.payload
+        },
+        updatelocal: (state, v) => {
+            state.local = v.payload
         }
     }
 })
 
-export const {updateUsername} = userSlice.actions
+export const { updateUsername, updatelocal } = userSlice.actions
 
 export const selectAge = (state: RootState) => state.users.age
 
